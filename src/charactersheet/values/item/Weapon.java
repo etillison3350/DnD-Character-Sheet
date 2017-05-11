@@ -1,7 +1,10 @@
-package charactersheet.values;
+package charactersheet.values.item;
 
+import charactersheet.values.Cost;
+import charactersheet.values.DamageType;
+import charactersheet.values.Dice;
 import charactersheet.values.Cost.Coin;
-import charactersheet.values.WeaponProperty.PropertyType;
+import charactersheet.values.item.WeaponProperty.PropertyType;
 
 public class Weapon extends Item implements Purchasable {
 

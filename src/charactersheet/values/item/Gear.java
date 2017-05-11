@@ -1,5 +1,6 @@
-package charactersheet.values;
+package charactersheet.values.item;
 
+import charactersheet.values.Cost;
 import charactersheet.values.Cost.Coin;
 
 public class Gear extends Item implements Purchasable {

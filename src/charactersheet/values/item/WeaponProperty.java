@@ -1,4 +1,6 @@
-package charactersheet.values;
+package charactersheet.values.item;
+
+import charactersheet.values.Dice;
 
 public class WeaponProperty {
 

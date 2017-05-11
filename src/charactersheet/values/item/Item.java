@@ -1,4 +1,4 @@
-package charactersheet.values;
+package charactersheet.values.item;
 
 public class Item {
 
