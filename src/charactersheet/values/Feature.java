@@ -2,12 +2,17 @@ package charactersheet.values;
 
 public class Feature {
 
-	public final String name, description;
-	public final IntegerSource[] effects;
+	public final String name;
+	public final boolean displayed;
+	public final Addition[] effects;
 
-	public Feature(final String name, final String description, final IntegerSource[] effects) {
+	public Feature(final String name, final Addition... effects) {
+		this(name, true, effects);
+	}
+
+	public Feature(final String name, final boolean displayed, final Addition... effects) {
 		this.name = name;
-		this.description = description;
+		this.displayed = displayed;
 		this.effects = effects;
 	}
 
