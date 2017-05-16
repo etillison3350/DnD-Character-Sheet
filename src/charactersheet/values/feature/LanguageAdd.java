@@ -1,4 +1,6 @@
-package charactersheet.values;
+package charactersheet.values.feature;
+
+import charactersheet.values.Language;
 
 public class LanguageAdd implements Addition {
 

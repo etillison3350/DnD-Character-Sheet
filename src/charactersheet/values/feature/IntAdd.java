@@ -1,4 +1,4 @@
-package charactersheet.values;
+package charactersheet.values.feature;
 
 public class IntAdd implements Addition {
 

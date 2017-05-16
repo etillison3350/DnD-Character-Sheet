@@ -1,26 +1,16 @@
 package charactersheet;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.web.WebView;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import charactersheet.values.Ability;
-import charactersheet.values.Alignment;
-import charactersheet.values.Background;
-import charactersheet.values.CharacterClass;
-import charactersheet.values.Race;
-import charactersheet.values.Skill;
 
 public class Window extends Application {
 
@@ -28,33 +18,63 @@ public class Window extends Application {
 		Application.launch(args);
 	}
 
-	private Stage stage;
+	// private Stage stage;
+	//
+	// private Scene characterScene;
+	// private TextField playerName;
+	// private TextField name;
+	// private TableView<CharacterClass> classTable;
+	// private ComboBox<CharacterClass> charClass;
+	// private Spinner<Integer> level;
+	// private ComboBox<Race> race;
+	// private ComboBox<Background> background;
+	// private ComboBox<Alignment> alignment;
+	// private Spinner<Integer> experience;
+	// private final List<Spinner<Integer>> baseAbilityScores = new
+	// ArrayList<>(Ability.values().length);
+	// private final List<RadioButton> savingThrows = new ArrayList<>(Ability.values().length);
+	// private final List<RadioButton> skills = new ArrayList<>(Skill.values().length);
+	// private TextArea personality;
+	// private TextArea ideals;
+	// private TextArea bonds;
+	// private TextArea flaws;
 
-	private Scene characterScene;
-	private TextField playerName;
+	private Scene scene1;
+	private GridPane details;
 	private TextField name;
-	private TableView<CharacterClass> classTable;
-	private ComboBox<CharacterClass> charClass;
+	private ComboBox<String> characterClass;
 	private Spinner<Integer> level;
-	private ComboBox<Race> race;
-	private ComboBox<Background> background;
-	private ComboBox<Alignment> alignment;
-	private Spinner<Integer> experience;
-	private final List<Spinner<Integer>> baseAbilityScores = new ArrayList<>(Ability.values().length);
-	private final List<RadioButton> savingThrows = new ArrayList<>(Ability.values().length);
-	private final List<RadioButton> skills = new ArrayList<>(Skill.values().length);
-	private TextArea personality;
-	private TextArea ideals;
-	private TextArea bonds;
-	private TextArea flaws;
+	private GridPane mainSection;
+	private VBox abilityScorePane;
+	private TextField[] abilityScores;
+	private TextField[] abilityModifiers;
+	private HBox inspirationBox;
+	private TextField inspiration;
+	private HBox proficiencyBox;
+	private VBox savingThrows;
+	private HBox[] savingThrowBoxes;
+	private RadioButton[] proficientSavingThrows;
+	private TextField[] savingThrowModifiers;
+	private VBox skills;
+	private HBox[] skillBoxes;
+	private RadioButton[] proficientSkills;
+	private TextField[] skillModifiers;
+	private HBox passiveWisdomBox;
+	private TextField passiveWisdom;
+	private TextArea otherProficiencies;
+	private GridPane topCenterPane;
+	private TextField armorClass;
+	private TextField initiative;
+	private TextField speed;
+	private VBox hitPointBox;
+	private HBox maxHPBox;
+	private TextField maxHP;
+	private TextField currentHP;
+	private TextField tempHP;
 
 	@Override
 	public void start(final Stage stage) throws Exception {
-		final WebView wv = new WebView();
-		wv.getEngine().loadContent(new String(Files.readAllBytes(Paths.get("sheet1.svg"))));
 
-		characterScene = new Scene(wv, 640, 480);
-		stage.setScene(characterScene);
 		stage.show();
 	}
 
