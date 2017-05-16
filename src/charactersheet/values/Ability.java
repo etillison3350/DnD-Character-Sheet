@@ -7,4 +7,9 @@ public enum Ability {
 	INTELLIGENCE,
 	WISDOM,
 	CHARISMA;
+
+	@Override
+	public String toString() {
+		return name().charAt(0) + name().substring(1).toLowerCase();
+	}
 }
