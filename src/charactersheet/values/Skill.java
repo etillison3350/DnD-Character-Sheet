@@ -1,5 +1,8 @@
 package charactersheet.values;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public enum Skill {
 
 	ACROBATICS(Ability.DEXTERITY),
@@ -25,6 +28,11 @@ public enum Skill {
 
 	private Skill(final Ability ability) {
 		this.ability = ability;
+	}
+
+	@Override
+	public String toString() {
+		return Arrays.stream(name().split("_")).map(s -> s.charAt(0) + s.substring(1).toLowerCase()).collect(Collectors.joining(" "));
 	}
 
 }
