@@ -9,6 +9,7 @@ import charactersheet.values.Ability;
 import charactersheet.values.Alignment;
 import charactersheet.values.Background;
 import charactersheet.values.CharacterClass;
+import charactersheet.values.Height;
 import charactersheet.values.Race;
 import charactersheet.values.Skill;
 import javafx.application.Application;
@@ -22,6 +23,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.control.Separator;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextArea;
@@ -74,6 +76,11 @@ public class Window extends Application {
 	private TextArea bonds;
 	private TextArea flaws;
 	private Spinner<Integer> age;
+	private Spinner<Height> height;
+	private Spinner<Integer> weight;
+	private TextField eyes;
+	private TextField skin;
+	private TextField hair;
 
 	private int levelValue;
 
@@ -169,17 +176,20 @@ public class Window extends Application {
 		for (int a = 0; a < Ability.values().length; a++) {
 			final int index = a;
 
-			abilityScores.add(new Spinner<>(0, 30, 10));
-			abilityScores.get(a).setMaxWidth(Double.POSITIVE_INFINITY);
-			abilityScores.get(a).valueProperty().addListener((observable, oldValue, newValue) -> {
+			final Spinner<Integer> abilityScore = new Spinner<>(0, 30, 10);
+			abilityScores.add(abilityScore);
+			abilityScore.setMaxWidth(Double.POSITIVE_INFINITY);
+			abilityScore.valueProperty().addListener((observable, oldValue, newValue) -> {
 				abilityModifiers[index].setText(String.format("%+d", (int) Math.floor((newValue - 10.0) / 2)));
 				setProficiencyScores(index);
 			});
-			Util.configureEditable(abilityScores.get(a));
+			Util.configureEditable(abilityScore);
+			abilityScore.getValueFactory().setConverter(Util.converterWithDefault(10, String::valueOf, Integer::parseInt));
+			Util.configureNumerical(abilityScore.getEditor());
 			abilityModifiers[a] = new Label("+0");
 
 			final GridPane abilityGrid = new GridPane();
-			abilityGrid.addRow(0, new Label(Ability.values()[a].toString()), abilityScores.get(a), abilityModifiers[a]);
+			abilityGrid.addRow(0, new Label(Ability.values()[a].toString()), abilityScore, abilityModifiers[a]);
 			final ColumnConstraints ten = new ColumnConstraints();
 			ten.setPercentWidth(10);
 			ten.setHalignment(HPos.RIGHT);
@@ -226,14 +236,77 @@ public class Window extends Application {
 		}
 		sheet1.getChildren().add(new TitledPane("Skills", skillBox));
 
+		final VBox charDetailsBox = new VBox(8);
+		charDetailsBox.setFillWidth(true);
+
+		personalityTraits = new TextArea();
+		personalityTraits.setPrefRowCount(4);
+		charDetailsBox.getChildren().addAll(new Label("Personality Traits"), personalityTraits);
+
+		ideals = new TextArea();
+		ideals.setPrefRowCount(3);
+		charDetailsBox.getChildren().addAll(new Label("Ideals"), ideals);
+
+		bonds = new TextArea();
+		bonds.setPrefRowCount(3);
+		charDetailsBox.getChildren().addAll(new Label("Bonds"), bonds);
+
+		flaws = new TextArea();
+		flaws.setPrefRowCount(3);
+		charDetailsBox.getChildren().addAll(new Label("Flaws"), flaws);
+
+		charDetailsBox.getChildren().add(new Separator());
+
+		age = new Spinner<>(0, Integer.MAX_VALUE, 20);
+		Util.configureEditable(age);
+		charDetailsBox.getChildren().add(Util.makeRow(new Label("Age"), age));
+
+		height = new Spinner<>(new SpinnerValueFactory<Height>() {
+			{
+				setValue(new Height(72));
+			}
+
+			@Override
+			public void decrement(final int steps) {
+				if (steps == 0) return;
+				setValue(new Height(Math.max(0, getValue().inches - steps)));
+			}
+
+			@Override
+			public void increment(final int steps) {
+				if (steps == 0) return;
+				setValue(new Height(getValue().inches + steps));
+			}
+
+		});
+		height.getValueFactory().setConverter(Util.converterWithDefault(new Height(72), Height::toString, Height::new));
+		Util.configureEditable(height);
+		charDetailsBox.getChildren().add(Util.makeRow(new Label("Height"), height));
+
+		weight = Util.spinnerWithSuffix(" lb", 0, Integer.MAX_VALUE, 0, 10);
+		weight.getValueFactory().setValue(200);
+		charDetailsBox.getChildren().add(Util.makeRow(new Label("Weight"), weight));
+
+		eyes = new TextField();
+		charDetailsBox.getChildren().add(Util.makeRow(new Label("Eyes"), eyes));
+
+		skin = new TextField();
+		charDetailsBox.getChildren().add(Util.makeRow(new Label("Skin"), skin));
+
+		hair = new TextField();
+		charDetailsBox.getChildren().add(Util.makeRow(new Label("Hair"), hair));
+
+		sheet1.getChildren().add(new TitledPane("Character Details", charDetailsBox));
+
 		final ScrollPane scrollPane = new ScrollPane(sheet1);
 		scrollPane.setFitToWidth(true);
 		scrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
 		scrollPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
 
-		scene1 = new Scene(scrollPane, 640, 480);
+		scene1 = new Scene(scrollPane, 480, 480);
 		stage.setScene(scene1);
 		stage.setTitle("D&D 5e Character Sheet Generator");
+		stage.setWidth(640);
 		stage.show();
 	}
 

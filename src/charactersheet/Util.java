@@ -64,7 +64,6 @@ public final class Util {
 				try {
 					return fromString.apply(string);
 				} catch (final Exception e) {
-					e.printStackTrace();
 					return defaultValue;
 				}
 			}
@@ -90,7 +89,6 @@ public final class Util {
 
 	public static void configureNumerical(final TextInputControl textField) {
 		textField.textProperty().addListener((ChangeListener<String>) (observable, oldValue, newValue) -> {
-			System.out.println(oldValue + ", " + newValue);
 			if (!newValue.matches("\\d*")) textField.setText(newValue.replaceAll("\\D+", ""));
 		});
 	}
