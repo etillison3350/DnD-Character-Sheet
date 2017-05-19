@@ -1,12 +1,13 @@
 package charactersheet.values.item;
 
 import charactersheet.values.Cost;
+import charactersheet.values.Cost.Coin;
 import charactersheet.values.DamageType;
 import charactersheet.values.Dice;
-import charactersheet.values.Cost.Coin;
+import charactersheet.values.Proficientable;
 import charactersheet.values.item.WeaponProperty.PropertyType;
 
-public class Weapon extends Item implements Purchasable {
+public class Weapon extends Item implements Purchasable, Proficientable {
 
 	public static final Weapon CLUB = new Weapon("Club", false, false, new Cost(1, Coin.SILVER), new Dice(4, 1), DamageType.BLUDGEONING, 2, new WeaponProperty(PropertyType.LIGHT));
 	public static final Weapon DAGGER = new Weapon("Dagger", false, false, new Cost(2, Coin.GOLD), new Dice(4, 1), DamageType.PIERCING, 1, new WeaponProperty(PropertyType.FINESSE), new WeaponProperty(PropertyType.LIGHT), new WeaponProperty(PropertyType.THROWN, 20, 60));

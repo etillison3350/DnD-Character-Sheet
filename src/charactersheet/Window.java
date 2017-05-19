@@ -5,13 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import charactersheet.values.Ability;
-import charactersheet.values.Alignment;
-import charactersheet.values.Background;
-import charactersheet.values.CharacterClass;
-import charactersheet.values.Race;
-import charactersheet.values.Skill;
-import charactersheet.values.Util;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.geometry.HPos;
@@ -25,7 +18,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.ColumnConstraints;
@@ -33,6 +25,13 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import charactersheet.values.Ability;
+import charactersheet.values.Alignment;
+import charactersheet.values.Background;
+import charactersheet.values.CharacterClass;
+import charactersheet.values.Race;
+import charactersheet.values.Skill;
+import charactersheet.values.Util;
 
 public class Window extends Application {
 
@@ -54,6 +53,13 @@ public class Window extends Application {
 	private Spinner<Integer> experience;
 	private Label level;
 	private Label proficiency;
+	private Spinner<Integer> currentHP;
+	private Spinner<Integer> tempHP;
+	private Label maxHP;
+	private GridPane[] levelGrids;
+	private List<ComboBox<CharacterClass>> multiclassCombobox;
+	private List<Spinner<Integer>> newHPs;
+	private Spinner<Integer> speed;
 	private Button roll;
 	private Label rollResult;
 	private List<Spinner<Integer>> abilityScores;
@@ -63,14 +69,6 @@ public class Window extends Application {
 	private Label[] savingThrowModifiers;
 	private CheckBox[] proficientSkills;
 	private Label[] skillModifiers;
-	private TextField passiveWisdom;
-	private TextArea otherProficiencies;
-	private TextField armorClass;
-	private TextField initiative;
-	private TextField speed;
-	private TextField maxHP;
-	private TextField currentHP;
-	private TextField tempHP;
 
 	private int levelValue;
 
@@ -153,6 +151,14 @@ public class Window extends Application {
 		xpPane.add(proficiency, 2, 1);
 		xpPane.getColumnConstraints().addAll(percentConstraints(50), percentConstraints(25), percentConstraints(25));
 		sheet1.getChildren().add(xpPane);
+
+		currentHP = new Spinner<Integer>(0, 0, 0);
+		tempHP = new Spinner<Integer>(0, Integer.MAX_VALUE, 0);
+		private final Label maxHP;
+		private final GridPane[] levelGrids;
+		private final List<ComboBox<CharacterClass>> multiclassCombobox;
+		private final List<Spinner<Integer>> newHPs;
+		private final Spinner<Integer> speed;
 
 		final VBox abilityBox = new VBox(8);
 		abilityBox.setFillWidth(true);

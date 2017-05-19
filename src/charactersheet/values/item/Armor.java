@@ -2,8 +2,9 @@ package charactersheet.values.item;
 
 import charactersheet.values.Cost;
 import charactersheet.values.Cost.Coin;
+import charactersheet.values.Proficientable;
 
-public class Armor extends Item implements Purchasable {
+public class Armor extends Item implements Purchasable, Proficientable {
 
 	public static final Armor PADDED = new Armor("Padded", ArmorType.LIGHT, new Cost(5, Coin.GOLD), 11, Integer.MAX_VALUE, 0, true, 8, false);
 	public static final Armor LEATHER = new Armor("Leather", ArmorType.LIGHT, new Cost(10, Coin.GOLD), 11, Integer.MAX_VALUE, 0, false, 10, false);
