@@ -1,7 +1,6 @@
-package charactersheet;
+package charactersheet.util;
 
 import java.util.function.Function;
-import java.util.regex.Pattern;
 
 import javafx.beans.value.ChangeListener;
 import javafx.scene.control.Spinner;
@@ -41,14 +40,6 @@ public final class Util {
 		final ColumnConstraints cc = new ColumnConstraints();
 		cc.setPercentWidth(percent);
 		return cc;
-	}
-
-	public static Spinner<Integer> spinnerWithSuffix(final String suffix, final int min, final int max, final int initial, final int stepSize) {
-		final Spinner<Integer> ret = new Spinner<>(min, max, initial, stepSize);
-
-		ret.getValueFactory().setConverter(converterWithDefault(0, i -> String.format("%d%s", i, suffix), s -> Integer.parseInt(s.replaceFirst(String.format("%s%s", Pattern.quote(suffix), "$"), ""))));
-		configureEditable(ret);
-		return ret;
 	}
 
 	public static <T> StringConverter<T> converterWithDefault(final T defaultValue, final Function<T, String> toString, final Function<String, T> fromString) {

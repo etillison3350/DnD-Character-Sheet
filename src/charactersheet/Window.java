@@ -26,11 +26,12 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import charactersheet.util.Height;
+import charactersheet.util.Util;
 import charactersheet.values.Ability;
 import charactersheet.values.Alignment;
 import charactersheet.values.Background;
 import charactersheet.values.CharacterClass;
-import charactersheet.values.Height;
 import charactersheet.values.Race;
 import charactersheet.values.Skill;
 
@@ -78,9 +79,9 @@ public class Window extends Application {
 	private TextArea ideals;
 	private TextArea bonds;
 	private TextArea flaws;
-	private Spinner<Integer> age;
+	private Spinner<Double> age;
 	private Spinner<Height> height;
-	private Spinner<Integer> weight;
+	private Spinner<Double> weight;
 	private TextField eyes;
 	private TextField skin;
 	private TextField hair;
@@ -269,7 +270,7 @@ public class Window extends Application {
 
 		charDetailsBox.getChildren().add(new Separator());
 
-		age = new Spinner<>(0, Integer.MAX_VALUE, 20);
+		age = new Spinner<>(0, Double.POSITIVE_INFINITY, 20);
 		Util.configureEditable(age);
 		charDetailsBox.getChildren().add(Util.makeRow(new Label("Age"), age));
 
@@ -295,8 +296,9 @@ public class Window extends Application {
 		Util.configureEditable(height);
 		charDetailsBox.getChildren().add(Util.makeRow(new Label("Height"), height));
 
-		weight = Util.spinnerWithSuffix(" lb", 0, Integer.MAX_VALUE, 0, 10);
-		weight.getValueFactory().setValue(200);
+		weight = new Spinner<Double>(0, Double.POSITIVE_INFINITY, 0, 10);// .spinnerWithSuffix(" lb", 0, Integer.MAX_VALUE, 0,
+// 10);
+		weight.getValueFactory().setValue(200.0);
 		charDetailsBox.getChildren().add(Util.makeRow(new Label("Weight"), weight));
 
 		eyes = new TextField();
