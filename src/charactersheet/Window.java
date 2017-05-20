@@ -5,6 +5,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import charactersheet.util.Height;
+import charactersheet.util.UnitConverter;
+import charactersheet.util.Util;
+import charactersheet.values.Ability;
+import charactersheet.values.Alignment;
+import charactersheet.values.Background;
+import charactersheet.values.CharacterClass;
+import charactersheet.values.Race;
+import charactersheet.values.Skill;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.geometry.HPos;
@@ -26,14 +35,6 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import charactersheet.util.Height;
-import charactersheet.util.Util;
-import charactersheet.values.Ability;
-import charactersheet.values.Alignment;
-import charactersheet.values.Background;
-import charactersheet.values.CharacterClass;
-import charactersheet.values.Race;
-import charactersheet.values.Skill;
 
 public class Window extends Application {
 
@@ -47,6 +48,7 @@ public class Window extends Application {
 	private VBox sheet1;
 
 	private TextField name;
+	private CheckBox multiclass;
 	private ComboBox<CharacterClass> characterClass;
 	private ComboBox<Race> race;
 	private ComboBox<Background> background;
@@ -100,9 +102,6 @@ public class Window extends Application {
 		name = new TextField();
 		sheet1.getChildren().add(Util.makeRow(new Label("Character Name"), name));
 
-		characterClass = new ComboBox<>();
-		sheet1.getChildren().add(Util.makeRow(new Label("Class"), characterClass));
-
 		race = new ComboBox<>();
 		sheet1.getChildren().add(Util.makeRow(new Label("Race"), race));
 
@@ -111,6 +110,9 @@ public class Window extends Application {
 
 		alignment = new ComboBox<>(FXCollections.observableArrayList(Alignment.values()));
 		sheet1.getChildren().add(Util.makeRow(new Label("Alignment"), alignment));
+
+		characterClass = new ComboBox<>();
+		sheet1.getChildren().add(Util.makeRow(new Label("Class"), characterClass));
 
 		final GridPane xpPane = new GridPane();
 		experience = new Spinner<>(new SpinnerValueFactory<Integer>() {
@@ -162,13 +164,13 @@ public class Window extends Application {
 		xpPane.getColumnConstraints().addAll(Util.percentConstraints(50), Util.percentConstraints(25), Util.percentConstraints(25));
 		sheet1.getChildren().add(xpPane);
 
-		currentHP = new Spinner<Integer>(0, 0, 0);
-		tempHP = new Spinner<Integer>(0, Integer.MAX_VALUE, 0);
-// private final Label maxHP;
-// private final GridPane[] levelGrids;
-// private final List<ComboBox<CharacterClass>> multiclassCombobox;
-// private final List<Spinner<Integer>> newHPs;
-// private final Spinner<Integer> speed;
+		currentHP = new Spinner<>(0, 0, 0);
+		tempHP = new Spinner<>(0, Integer.MAX_VALUE, 0);
+		// private final Label maxHP;
+		// private final GridPane[] levelGrids;
+		// private final List<ComboBox<CharacterClass>> multiclassCombobox;
+		// private final List<Spinner<Integer>> newHPs;
+		// private final Spinner<Integer> speed;
 		// TODO
 
 		final VBox abilityBox = new VBox(8);
@@ -270,7 +272,22 @@ public class Window extends Application {
 
 		charDetailsBox.getChildren().add(new Separator());
 
-		age = new Spinner<>(0, Double.POSITIVE_INFINITY, 20);
+		age = new Spinner<>(0, Double.POSITIVE_INFINITY, 0);
+		age.setValueFactory(new SpinnerValueFactory<Double>() {
+
+			@Override
+			public void decrement(final int steps) {
+				setValue(Math.max(0, getValue() - steps));
+			}
+
+			@Override
+			public void increment(final int steps) {
+				setValue(getValue() + steps);
+			}
+
+		});
+		age.getValueFactory().setConverter(Util.converterWithDefault(20.0, d -> String.format("%s y", Util.MIN_DECIMAL.format(d)), UnitConverter::toYears));
+		age.getValueFactory().setValue(20.);
 		Util.configureEditable(age);
 		charDetailsBox.getChildren().add(Util.makeRow(new Label("Age"), age));
 
@@ -296,9 +313,23 @@ public class Window extends Application {
 		Util.configureEditable(height);
 		charDetailsBox.getChildren().add(Util.makeRow(new Label("Height"), height));
 
-		weight = new Spinner<Double>(0, Double.POSITIVE_INFINITY, 0, 10);// .spinnerWithSuffix(" lb", 0, Integer.MAX_VALUE, 0,
-// 10);
+		weight = new Spinner<>(0, Double.POSITIVE_INFINITY, 0, 10);
+		weight.setValueFactory(new SpinnerValueFactory<Double>() {
+
+			@Override
+			public void decrement(final int steps) {
+				setValue(Math.max(0, getValue() - steps * 10));
+			}
+
+			@Override
+			public void increment(final int steps) {
+				setValue(getValue() + steps * 10);
+			}
+
+		});
+		weight.getValueFactory().setConverter(Util.converterWithDefault(200.0, d -> String.format("%.2f lb", d), UnitConverter::toPounds));
 		weight.getValueFactory().setValue(200.0);
+		Util.configureEditable(weight);
 		charDetailsBox.getChildren().add(Util.makeRow(new Label("Weight"), weight));
 
 		eyes = new TextField();

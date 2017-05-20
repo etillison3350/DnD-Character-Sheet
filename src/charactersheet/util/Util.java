@@ -1,5 +1,6 @@
 package charactersheet.util;
 
+import java.text.DecimalFormat;
 import java.util.function.Function;
 
 import javafx.beans.value.ChangeListener;
@@ -16,6 +17,10 @@ public final class Util {
 	private Util() {}
 
 	public static final int[] XP_PER_LEVEL = {0, 300, 900, 2700, 6500, 14000, 23000, 34000, 48000, 64000, 85000, 100000, 120000, 140000, 165000, 195000, 225000, 265000, 305000, 355000};
+	public static final DecimalFormat MIN_DECIMAL = new DecimalFormat("0");
+	static {
+		MIN_DECIMAL.setMaximumFractionDigits(3);
+	}
 
 	public static GridPane makeRow(final Region... components) {
 		return makeRow(true, components);
