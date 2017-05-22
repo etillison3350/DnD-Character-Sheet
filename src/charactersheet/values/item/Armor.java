@@ -1,5 +1,9 @@
 package charactersheet.values.item;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Predicate;
+
 import charactersheet.values.Cost;
 import charactersheet.values.Cost.Coin;
 import charactersheet.values.Proficientable;
@@ -20,7 +24,12 @@ public class Armor extends Item implements Purchasable, Proficientable {
 	public static final Armor PLATE = new Armor("Plate", ArmorType.HEAVY, new Cost(1500, Coin.GOLD), 18, 0, 15, true, 65, true);
 	public static final Armor SHIELD = new Armor("Shield", ArmorType.SHIELD, new Cost(10, Coin.GOLD), 2, 0, 0, false, 6, false);
 
-	private static final Armor[] values = {PADDED, LEATHER, STUDDED_LEATHER, HIDE, CHAIN_SHIRT, SCALE_MAIL, BREASTPLATE, HALF_PLATE, RING_MAIL, CHAIN_MAIL, SPLINT, PLATE, SHIELD};
+	private static final List<Armor> values = Arrays.asList(PADDED, LEATHER, STUDDED_LEATHER, HIDE, CHAIN_SHIRT, SCALE_MAIL, BREASTPLATE, HALF_PLATE, RING_MAIL, CHAIN_MAIL, SPLINT, PLATE, SHIELD);
+
+	public static final Armor[] LIGHT = valuesMatching(a -> a.type == ArmorType.LIGHT);
+	public static final Armor[] MEDIUM = valuesMatching(a -> a.type == ArmorType.MEDIUM);
+	public static final Armor[] HEAVY = valuesMatching(a -> a.type == ArmorType.HEAVY);
+	public static final Armor[] SHIELDS = valuesMatching(a -> a.type == ArmorType.SHIELD);
 
 	public final ArmorType type;
 	public final Cost cost;
@@ -47,7 +56,11 @@ public class Armor extends Item implements Purchasable, Proficientable {
 	}
 
 	public static Armor[] values() {
-		return Armor.values;
+		return values.toArray(new Armor[values.size()]);
+	}
+
+	public static Armor[] valuesMatching(final Predicate<Armor> predicate) {
+		return values.stream().filter(predicate).toArray(Armor[]::new);
 	}
 
 }

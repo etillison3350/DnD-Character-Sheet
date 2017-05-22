@@ -1,5 +1,9 @@
 package charactersheet.values.item;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Predicate;
+
 import charactersheet.values.Cost;
 import charactersheet.values.Cost.Coin;
 import charactersheet.values.Proficientable;
@@ -44,6 +48,9 @@ public class Tool extends Item implements Purchasable, Proficientable {
 	public static final Tool POISONERS_KIT = new Tool("Poisoner's kit", 2f, new Cost(50, Coin.GOLD));
 	public static final Tool THIEVES_TOOLS = new Tool("Thieves' tools", 1f, new Cost(25, Coin.GOLD));
 
+	private static final List<Tool> values = Arrays.asList(ALCHEMISTS_SUPPLIES, BREWERS_SUPPLIES, CALLIGRAPHERS_SUPPLIES, CARPENTERS_TOOLS, CARTOGRAPHERS_TOOLS, COBBLERS_TOOLS, COOKS_UTENSILS, GLASSBLOWERS_TOOLS, JEWELERS_TOOLS, LEATHERWORKERS_TOOLS, MASONS_TOOLS, PAINTERS_SUPPLIES, POTTERS_TOOLS, SMITHS_TOOLS, TINKERS_TOOLS, WEAVERS_TOOLS, WOODCARVERS_TOOLS, DISGUISE_KIT, FORGERY_KIT, DICE_SET, DRAGONCHESS_SET, PLAYING_CARD_SET, THREE_DRAGON_ANTE, HERBALISM_KIT, BAGPIPES, DRUM, DULCIMER, FLUTE, LUTE, LYRE,
+			HORN, PAN_FLUTE, SHAWM, VIOL, NAVIGATORS_TOOLS, POISONERS_KIT, THIEVES_TOOLS);
+
 	public final ToolType type;
 	public final Cost cost;
 
@@ -61,6 +68,14 @@ public class Tool extends Item implements Purchasable, Proficientable {
 	@Override
 	public Cost getCost() {
 		return cost;
+	}
+
+	public Tool[] values() {
+		return values.toArray(new Tool[values.size()]);
+	}
+
+	public Tool[] valuesMatching(final Predicate<Tool> predicate) {
+		return values.stream().filter(predicate).toArray(Tool[]::new);
 	}
 
 	public static enum ToolType {

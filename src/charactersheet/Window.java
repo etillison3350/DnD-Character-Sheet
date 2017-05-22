@@ -111,9 +111,6 @@ public class Window extends Application {
 		alignment = new ComboBox<>(FXCollections.observableArrayList(Alignment.values()));
 		sheet1.getChildren().add(Util.makeRow(new Label("Alignment"), alignment));
 
-		characterClass = new ComboBox<>();
-		sheet1.getChildren().add(Util.makeRow(new Label("Class"), characterClass));
-
 		final GridPane xpPane = new GridPane();
 		experience = new Spinner<>(new SpinnerValueFactory<Integer>() {
 
@@ -163,6 +160,18 @@ public class Window extends Application {
 		xpPane.add(proficiency, 2, 1);
 		xpPane.getColumnConstraints().addAll(Util.percentConstraints(50), Util.percentConstraints(25), Util.percentConstraints(25));
 		sheet1.getChildren().add(xpPane);
+
+		final GridPane classPane = new GridPane();
+		classPane.setVgap(8);
+		classPane.getColumnConstraints().addAll(Util.percentConstraints(50), Util.percentConstraints(50));
+		classPane.add(new Label("Class"), 0, 0, 1, 2);
+		characterClass = new ComboBox<>();
+		characterClass.setMaxWidth(Double.POSITIVE_INFINITY);
+		classPane.add(characterClass, 1, 0);
+		multiclass = new CheckBox("Multiclass");
+		classPane.add(multiclass, 1, 1);
+
+		sheet1.getChildren().add(classPane);
 
 		currentHP = new Spinner<>(0, 0, 0);
 		tempHP = new Spinner<>(0, Integer.MAX_VALUE, 0);

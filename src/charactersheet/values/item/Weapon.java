@@ -1,5 +1,9 @@
 package charactersheet.values.item;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Predicate;
+
 import charactersheet.values.Cost;
 import charactersheet.values.Cost.Coin;
 import charactersheet.values.DamageType;
@@ -47,7 +51,10 @@ public class Weapon extends Item implements Purchasable, Proficientable {
 	public static final Weapon LONGBOW = new Weapon("Longbow", true, true, new Cost(50, Coin.GOLD), new Dice(8, 1), DamageType.PIERCING, 2, new WeaponProperty(PropertyType.AMMUNITION, 150, 600), new WeaponProperty(PropertyType.HEAVY), new WeaponProperty(PropertyType.TWO_HANDED));
 	public static final Weapon NET = new Weapon("Net", true, true, new Cost(1, Coin.GOLD), new Dice(0, 0), null, 3, new WeaponProperty(PropertyType.SPECIAL), new WeaponProperty(PropertyType.THROWN, 5, 15));
 
-	private static final Weapon[] values = {CLUB, DAGGER, GREATCLUB, HANDAXE, JAVELIN, LIGHT_HAMMER, MACE, QUARTERSTAFF, SICKLE, SPEAR, LIGHT_CROSSBOW, DART, SHORTBOW, SLING, BATTLEAXE, FLAIL, GLAIVE, GREATAXE, GREATSWORD, HALBERD, LANCE, LONGSWORD, MAUL, MORNINGSTAR, PIKE, RAPIER, SCIMITAR, SHORTSWORD, TRIDENT, WAR_PICK, WARHAMMER, WHIP, BLOWGUN, HAND_CROSSBOW, HEAVY_CROSSBOW, LONGBOW, NET};
+	private static final List<Weapon> values = Arrays.asList(CLUB, DAGGER, GREATCLUB, HANDAXE, JAVELIN, LIGHT_HAMMER, MACE, QUARTERSTAFF, SICKLE, SPEAR, LIGHT_CROSSBOW, DART, SHORTBOW, SLING, BATTLEAXE, FLAIL, GLAIVE, GREATAXE, GREATSWORD, HALBERD, LANCE, LONGSWORD, MAUL, MORNINGSTAR, PIKE, RAPIER, SCIMITAR, SHORTSWORD, TRIDENT, WAR_PICK, WARHAMMER, WHIP, BLOWGUN, HAND_CROSSBOW, HEAVY_CROSSBOW, LONGBOW, NET);
+
+	public static final Weapon[] SIMPLE = valuesMatching(w -> !w.martial);
+	public static final Weapon[] MARTIAL = valuesMatching(w -> w.martial);
 
 	public final boolean martial;
 	public final boolean ranged;
@@ -68,7 +75,11 @@ public class Weapon extends Item implements Purchasable, Proficientable {
 	}
 
 	public static final Weapon[] values() {
-		return values;
+		return values.toArray(new Weapon[values.size()]);
+	}
+
+	public static Weapon[] valuesMatching(final Predicate<Weapon> predicate) {
+		return values.stream().filter(predicate).toArray(Weapon[]::new);
 	}
 
 	@Override
