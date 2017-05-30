@@ -20,22 +20,4 @@ public class IntAdd implements Addition {
 		return change;
 	}
 
-	public static class ChoiceIntAdd extends IntAdd implements SelectableAddition<IntAdd> {
-
-		public ChoiceIntAdd(final int change, final Object... selections) {
-			super(selections, change);
-		}
-
-		@Override
-		public Object[] getOptions() {
-			return (Object[]) property;
-		}
-
-		@Override
-		public IntAdd createWithOption(final int index) {
-			return new IntAdd(((Object[]) property)[index], change);
-		}
-
-	}
-
 }
